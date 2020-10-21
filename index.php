@@ -137,7 +137,7 @@ header("Location: errorlogin.php");
 <head>
 
 	<title>
-		eTarteeb		 
+		Tarteeb		
 	</title>
 
 <!-- To Add Jquery -->
