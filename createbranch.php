@@ -1,0 +1,559 @@
+<?php 
+  require_once("connection.php"); 
+
+  
+  require_once('common.php');
+  /*echo $_SESSION['MM_Username'];
+  echo "<br>";
+  echo $_SESSION['MM_UserId'];
+  echo "<br>";
+  echo $_SESSION['MM_CompName'];*/
+
+
+
+
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
+
+
+ $Code = $_POST['Code'];
+ $AName = $_POST['AName'];
+ $EName = $_POST['EName'];
+ $GroupID = $_POST['GroupID'];
+ $GroupCode = $_POST['GroupCode'];
+ if ($_POST['IsGroup'] == '1'){ $IsGroup = "1";}else{$IsGroup = "0";}
+ if ($_POST['IsActive'] == '1'){ $IsActive = "1";}else{$IsActive = "0";}
+
+
+ 
+ 
+ $tsql= "INSERT INTO dbo.Branches (
+            Code,AName,EName,GroupID,GroupCode,IsGroup,IsActive) 
+            VALUES
+            (?, ?, ?, ?, ?, ?, ?)";
+            
+      $var = array($Code, $AName, $EName, $GroupID,  $GroupCode, $IsGroup, $IsActive);
+            if (!sqlsrv_query($connSelComp, $tsql, $var))
+                 {
+            print_r($var); 
+            
+            die('Error: ' . print_r(sqlsrv_errors()));
+                 }
+            echo "1 record added"; 
+      
+      
+  
+  $insertGoTo = "Branch.php?id=".$_GET['id'];
+  if (isset($_SERVER['QUERY_STRING'])) {
+    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+    $insertGoTo .= $_SERVER['QUERY_STRING'];
+  }
+  header(sprintf("Location: Branch.php?id=".$_GET['id'], $insertGoTo));
+}
+
+$GroupID = $_GET['GroupID'];
+
+$StrSql = "Select * from Branches WHERE ID = '".$_GET['id']."'";
+$Result = sqlsrv_query( $connSelComp, $StrSql) or die ( print_r(sqlsrv_errors(), true));
+
+$row_costcenter = sqlsrv_fetch_array( $Result, SQLSRV_FETCH_ASSOC);
+
+ ?>
+
+
+ <!DOCTYPE html>
+ <html>
+ <head>
+  <!-- To Add Jquery -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.34.0/jquery.fancytree-all-deps.min.js" integrity="sha256-d8VPSMnDtzaOgN+kb4JLYj2XklbYR1S7jiPkrMIyuHA=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.34.0/skin-win7/ui.fancytree.min.css" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.6.0/src/jquery.fancytree.filter.js" crossorigin="anonymous"></script>
+
+
+<style type="text/css">
+ 
+
+
+table, tr, td, th
+{
+
+    border-collapse:collapse;
+}
+tr.header
+{
+  font-size: 18px;
+    cursor:pointer;
+    
+}
+
+.mainheader
+{
+ 
+ font-size: 22px;
+
+
+   
+}
+
+.fancytree-container {
+  outline: none;
+}
+
+
+.fancytree-title{ 
+
+  text-decoration: underline;
+  color: blue !important;
+
+   }
+
+   .fancytree-childcounter{
+
+font-size: 10px !important;
+height: 15px !important;
+
+
+   }
+
+     .mainhead-childcounter{
+
+font-size: 20px !important;
+height: 15px !important;
+
+
+   }
+
+   .mainhead{
+
+   font-weight: bold;
+   font-size: 20px !important;
+
+   } 
+
+.mainhead .fancytree-title{
+
+   margin-top: 30px !important;
+   color: black  !important;
+   text-decoration: blink !important;
+
+}
+
+
+   .mainicon{
+background-image: url('https://img.icons8.com/bubbles/2x/company.png');
+background-size: 100% 100% !important;
+width: 80px !important;
+height: 90px !important;
+background-repeat: no-repeat;
+
+   }
+
+
+</style>
+
+  <title>
+   Online Accounting System   
+  </title>
+
+ </head>
+ <body onload="getData();">
+ 
+<div id="headerr"></div>
+
+<div>
+
+
+<br>
+
+
+</div>
+
+
+<div class="col-md-3 float-left">
+
+<p>
+    <label  class="col-md-3">Search: </label>
+    <input name="search" placeholder="Search..." autocomplete="off" class="col-md-5">
+    <button id="btnResetSearch" class="col-md-1">&times;</button>
+    <span class="col-md-2" id="matches"></span>
+  </p>
+
+
+
+<div id="tree" class=""></div>
+
+<div class="actionbuttons">
+  <br>
+
+
+<?php
+
+$newgroupid = $row_costcenter['ID'];
+
+if($row_costcenter['IsGroup'] == 1){
+ echo "<a href='createdepartment.php?id=".$row_costcenter['ID']."&GroupID=".$newgroupid."' class='btn btn-primary col-md-4 float-left' >Add New</a>"; }
+ elseif($row_costcenter['IsGroup'] == 0) {echo "<a class='btn btn-primary col-md-4 float-left'  disabled >Add New</a>"; }
+
+ ?>
+
+ 
+
+<div class="col-md-6"></div>
+
+<a href="editbranch.php?id=<?php echo $row_costcenter['ID']; ?>"" class="btn btn-success col-md-4 float-right" >Edit</a>
+
+
+
+
+
+</div>
+</div>
+
+
+<div class="container col-md-8 float-right">
+	
+	<div class="heading">
+
+		<h3 class="col-md-8"> Add Branch Information  </h3> 
+		
+
+</div>
+
+	
+		<hr/>
+
+
+<div class="">
+  
+    <form method="post" name="form1" action="createbranch.php">
+
+<div class="col-md-2">Code</div>
+<div class="col-md-10"><input type="text" name="Code" id="Code" class="form-control" tabindex="1"  maxlength="20" autofocus /></div>
+
+<div class="col-md-12"><br></div>
+
+<div class="col-md-2">Name (Arabic)</div>
+<div class="col-md-10"><input type="text" name="AName" class="form-control" tabindex="2"  /></div>
+
+<div class="col-md-12"><br></div>
+
+<div class="col-md-2">Name (English)</div>
+<div class="col-md-10"><input type="text" name="EName" class="form-control" tabindex="3"  /></div>
+
+<div class="col-md-12"><br></div>
+
+
+
+
+
+<div class="col-md-2">Parent</div>
+<div class="col-md-10">
+<select name="GroupID" id="GroupID" class="form-control" onchange="getData();"  value="<?php echo $row_costcenter['GroupID']; ?>" tabindex="4"  >
+  
+  <option value="">Select</option>
+  
+   <?php
+
+
+
+$sqlCOMPNAME = "
+
+SELECT *
+FROM SystemParameters
+where ID = '1'";
+$stmtcompname = sqlsrv_query( $connSelComp, $sqlCOMPNAME);
+if( $stmtcompname === false ) {
+     die( print_r( sqlsrv_errors(), true));
+}
+
+$row_compname = sqlsrv_fetch_array( $stmtcompname, SQLSRV_FETCH_ASSOC);
+
+          
+
+
+$sql1 = "
+
+SELECT 1 AS ID, 'COMP' AS Code, '".$row_compname['compNameEn']."' AS EName, '1' AS IsGroup, '1' AS IsActive
+UNION
+SELECT  ID, Code, EName, IsGroup, IsActive
+FROM Branches
+WHERE  IsGroup = '1' AND IsActive = '1'
+ ";
+$stmt11 = sqlsrv_query( $connSelComp, $sql1);
+if( $stmt11 === false ) {
+     die( print_r( sqlsrv_errors(), true));
+}
+
+
+ while ($row_groupid = sqlsrv_fetch_array( $stmt11, SQLSRV_FETCH_ASSOC)){ ?>
+          
+          <option value="<?php echo $row_groupid['ID']?>" <?php if (!(strcmp($row_groupid['ID'], htmlentities($GroupID, ENT_COMPAT, '')))) {echo "SELECTED";} ?>><?php
+      
+         echo $row_groupid['Code']." | ".$row_groupid['EName']; ?></option>
+          <?php }; ?>
+
+
+
+</select>
+
+</div>
+
+<div class="col-md-12"><br></div>
+
+<!-- lastcode: <input type="text" name="lastGroupCode" id="lastGroupCode" style="width: 600px"  /> -->
+
+<div class="col-md-2">GroupCode</div>
+
+
+
+
+<div class="col-md-10"><input type="text" name="GroupCode" id="GroupCode" class="form-control"  value="<?php echo $row_costcenter['GroupCode']; ?>" tabindex="5"  /></div>
+
+<div class="col-md-12"><br></div>
+
+
+<div class="row">
+<div class="col-md-1">IsGroup</div>
+<div class="col-md-1"><input type="checkbox" name="IsGroup" value="1" class="" <?php  
+if($row_costcenter['IsGroup'] == 1){ echo 'checked';}else{} ?>  tabindex="6"  /></div>
+
+
+
+<div class="col-md-1">IsActive</div>
+<div class="col-md-1"><input type="checkbox" name="IsActive" value="1" class=""  <?php  
+if($row_costcenter['IsActive'] == 1){ echo 'checked';}else{} ?>  tabindex="7"   /></div>
+
+<div class="col-md-4"></div>
+
+ <input type="submit" id="addbtn" value="Add Branch" class="col-md-2 btn btn-primary col-xs-offset-1" tabindex="9" >
+
+
+</div>
+
+
+<div class="col-md-12"><br></div>
+
+<input type="hidden" name="CCLevel" id="CCLevel" class="form-control"  value="<?php echo $row_costcenter['CCLevel']; ?>"  />
+
+
+  <input type="hidden" name="MM_insert" value="form1">
+ 
+
+    
+</div>
+</form>
+</div>
+
+
+
+
+
+<div id="footer"></div>
+
+ </body>
+ </html>
+
+ 
+ <script type="text/javascript">  
+
+$("#headerr").load("mainheader.php");
+$("#footer").load("mainfooter.php");
+
+ </script>
+
+
+<script type="text/javascript">
+ 
+
+ $(document).ready(function(){
+    $('tr.header').click(function(){
+        $(this).find('span').text(function(_, value){return value=='-'?'+':'-'});
+        $(this).nextUntil('tr.header').slideToggle(100, function(){
+
+        
+        });
+    });
+});
+
+
+ $('tr.header2').click(function(){
+        $(this).find('span').text(function(_, value){return value=='-'?'+':'-'});
+        $(this).nextUntil('tr.header2').slideToggle(100, function(){
+
+        
+        });
+    });
+
+
+
+</script>
+
+<script type="text/javascript">
+ 
+ $("#tree").fancytree({
+
+
+  extensions: ["childcounter", "persist", "filter"],
+  checkbox: false,
+  selectMode: 3,
+
+  source: {
+    url:
+      "json_branch.php"
+
+
+  },
+
+ filter: {
+       mode: "hide"
+      },
+
+
+
+persist: {
+        expandLazy: true,
+        // fireActivate: false,    // false: suppress `activate` event after active node was restored
+        // overrideSource: false,  // true: cookie takes precedence over `source` data attributes.
+        store: "local" // 'cookie', 'local': use localStore, 'session': sessionStore
+        // Sample for a custom store:
+        // store: {
+        //   get: function(key){ this.info("get(" + key + ")"); return window.sessionStorage.getItem(key); },
+        //   set: function(key, value){ this.info("set(" + key + ", " + value + ")"); window.sessionStorage.setItem(key, value); },
+        //   remove: function(key){ this.info("remove(" + key + ")"); window.sessionStorage.removeItem(key); }
+        // }
+
+
+      },
+   childcounter: {
+        deep: false,
+        hideZeros: true,
+        hideExpanded: true
+      },
+
+      loadChildren: function(event, data) {
+        // update node and parent counters after lazy loading
+        data.node.updateCounters();
+
+
+            
+
+      },
+
+  lazyLoad: function(event, data) {
+    data.result = {url: "json_branch.php"};
+
+
+  },
+select: function(event, data) {
+        
+
+
+
+      },
+
+  focus: function(event, data) {
+  
+      var node = data.node,
+                orgEvent = data.originalEvent;
+
+            if(node.data.href){
+                //window.open(node.data.href, (orgEvent.ctrlKey || orgEvent.metaKey) ? "_blank" /*node.data.target*/ : node.data.target);
+                window.location.href=node.data.href;    
+            }
+
+
+
+      },
+
+  activate: function(event, data){
+
+
+
+
+        },
+
+});
+
+ var tree = $("#tree").fancytree("getTree");
+
+    /*
+     * Event handlers for our little demo interface
+     */
+    $("input[name=search]").keyup(function(e){
+
+      $.ui.fancytree.getTree("#tree").expandAll();
+      var match = $(this).val();
+      if(e && e.which === $.ui.keyCode.ESCAPE || $.trim(match) === ""){
+        $("button#btnResetSearch").click();
+        return;
+      }
+      // Pass text as filter string (will be matched as substring in the node title)
+      var n = tree.applyFilter(match);
+      $("button#btnResetSearch").attr("disabled", false);
+      $("span#matches").text("(" + n + " matches)");
+    }).focus();
+
+    $("button#btnResetSearch").click(function(e){
+      $("input[name=search]").val("");
+      $("span#matches").text("");
+      tree.clearFilter();
+    }).attr("disabled", true);
+
+    $("input#hideMode").change(function(e){
+      tree.options.filter.mode = $(this).is(":checked") ? "hide" : "dimm";
+      tree.clearFilter();
+      $("input[name=search]").keyup();
+//      tree.render();
+    });
+  
+
+
+
+</script>
+
+
+<script type="text/javascript">
+  
+
+function getData() {
+  var GroupID = $('#GroupID').val();
+ 
+  if(GroupID != '') {
+    $.ajax({
+      type : "get",
+      dataType: "json",
+      url: "getbranchcode.php?GroupID="+GroupID,
+      data: {GroupID : GroupID},
+      success: function (data) {
+
+
+
+
+          console.log(data['lastcodeindb'] + "New code: " + data['newcode']);
+
+          $('#lastGroupCode').val(data['lastcodeindb']);
+          $('#GroupCode').val(data['newcode']);
+      
+        }
+    });
+  }
+}
+</script> 
+
+<script type="text/javascript">
+
+  $( document ).ready(function() {
+  $("#Code").focus();
+});
+
+
+
+</script>
