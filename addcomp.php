@@ -441,7 +441,7 @@ background-repeat: no-repeat;
                 <input readonly class="form-control text-box single-line" data-val="true" name="Code" id="Code" type="text" value="<?php 
 
 
-$Sql = 'SELECT Code from LASCompanies';
+$Sql = 'SELECT Code from etarteeb';
 $Result = sqlsrv_query( $conn, $Sql) or die ( print_r(sqlsrv_errors(), true));
 
 $row_code = sqlsrv_fetch_array( $Result, SQLSRV_FETCH_ASSOC);
