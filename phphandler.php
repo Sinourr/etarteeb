@@ -13,7 +13,7 @@ if($action == 'codecheck' ){
 $Code = $_GET['Code'];
 
 //check it the code is already present in the databas or not.
-$StrSql = "SELECT TOP(1) * FROM etarteeb WHERE Code = ".$Code." ORDER BY id DESC";
+$StrSql = "SELECT TOP(1) * FROM LASCompanies WHERE Code = ".$Code." ORDER BY id DESC";
 $Result = sqlsrv_query( $conn, $StrSql, array(), array( "Scrollable" => 'static' )) or die ( print_r(sqlsrv_errors(), true));
 $code = sqlsrv_fetch_array( $Result, SQLSRV_FETCH_ASSOC);
 $row_count = sqlsrv_num_rows( $Result );

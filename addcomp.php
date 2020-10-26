@@ -441,13 +441,13 @@ background-repeat: no-repeat;
                 <input readonly class="form-control text-box single-line" data-val="true" name="Code" id="Code" type="text" value="<?php 
 
 
-$Sql = 'SELECT Code from etarteeb';
+$Sql = 'SELECT TOP(1) Code as CODE from LASCompanies ORDER BY Code DESC';
 $Result = sqlsrv_query( $conn, $Sql) or die ( print_r(sqlsrv_errors(), true));
 
 $row_code = sqlsrv_fetch_array( $Result, SQLSRV_FETCH_ASSOC);
 
 
-echo $row_code['Code']+1;
+echo $row_code['CODE']+1;
 
  ?>"
 
