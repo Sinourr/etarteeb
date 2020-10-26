@@ -1,7 +1,12 @@
 <?php 
 
 
+if(!isset($_SESSION)){				
+session_start();				
+}	
+
 require('connection.php');
+
 
 
 
@@ -16,10 +21,12 @@ if (isset($_POST['username']))
 
 	$_SESSION['Role'] =  'Owner';
 	$_SESSION['MM_Username'] =  'Owner';
+	$_SESSION['MM_CompName'] = ''; 
+
     
     header("Location: dashboard.php");
 
- } else if($_POST['ccompanylst'] == 'db0' & $_POST['username'] !== "owner"){ 
+ } else if($_POST['ccompanylst'] == 'db0' & $_POST['username'] !== "Owner"){ 
 
 
 	$ccompanylst =$_POST['ccompanylst'];
@@ -137,7 +144,7 @@ header("Location: errorlogin.php");
 <head>
 
 	<title>
-		eTarteeb		 
+		Tarteeb		
 	</title>
 
 <!-- To Add Jquery -->

@@ -409,17 +409,17 @@ background-repeat: no-repeat;
 
 
 <div class="container">
-	
-	<div class="heading">
+  
+  <div class="heading">
 
-		<h3 class="col-md-8"><i class="far fa-building" aria-hidden="true"></i> Add Company Information <a href='companies.php' class='btn btn-outline-primary' >Go Back</a>
+    <h3 class="col-md-8"><i class="far fa-building" aria-hidden="true"></i> Add Company Information <a href='companies.php' class='btn btn-outline-primary' >Go Back</a>
   </h3> 
-		
+    
 
 </div>
 
-	
-		<hr/>
+  
+    <hr/>
 
 
 <div class="">
