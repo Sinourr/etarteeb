@@ -46,11 +46,7 @@ $connectionInfo = array("UID" => "adminuser", "pwd" => "User100+", "Database" =>
 $serverName = "tcp:mssqlserver11.database.windows.net,1433";
 $conn = sqlsrv_connect($serverName, $connectionInfo);
 
-
-
-		
-				
-$conn = sqlsrv_connect( $serverName, $connectionInfo);				
+			
 if( $conn ) 				
 {				
 	/*echo "Success1";*/			
@@ -69,7 +65,8 @@ if($_SESSION['Loggedin']== '1')
 {				
 		$Database = $_SESSION['MM_CompName'];		
 				
-		$connSelectedCompany = array("UID" => "adminuser", "pwd" => "User100+", "Database" => "db1", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);		
+		$connSelectedCompany = array("UID" => "adminuser", "pwd" => "User100+", "Database" => "db1", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+		$serverName = "tcp:mssqlserver11.database.windows.net,1433";		
 		$connSelComp = sqlsrv_connect( $serverName, $connSelectedCompany);		
 	if( $connSelComp ) 			
 	{			
