@@ -49,7 +49,7 @@ if($_SESSION['Loggedin']=='1')
 {				
 		$Database = $_SESSION['MM_CompName'];		
 				
-		$connSelectedCompany = array( "Database" => $Database, "CharacterSet" => "UTF-8");		
+		$connSelectedCompany = array("UID" => "adminuser", "pwd" => "User100+", "Database" => $Database, "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);		
 		$connSelComp = sqlsrv_connect( $serverName, $connSelectedCompany);		
 	if( $connSelComp ) 			
 	{			
