@@ -2,8 +2,9 @@
   require_once("connection.php");
   require("common.php");
   require("mainheader.php"); 
+  require("lang.php");
 
-
+error_reporting(0); // Turn off all error reporting
 
 
 $StrSql = "Select * from Branches WHERE Id = '".$_GET['id']."'";
@@ -24,10 +25,10 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 
 
 $tsql = "UPDATE Branches  SET 
-          nameEn = (?),
-          nameAr = (?),
+          EName = (?),
+          AName = (?),
           Code= (?),
-          isActive= (?)
+          IsActive= (?)
           WHERE Id = (?)";  
 
 /* Set parameter values. */  
@@ -36,7 +37,7 @@ $params = array($nameEnglish, $nameArabic, $code, $isActive, $Id);
 /* Prepare and execute the query. */  
 $stmt21 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt21) {  
-    echo "Row successfully updates.\n";  
+    
 } else {  
     echo "Row update failed.\n";  
     die(print_r(sqlsrv_errors(), true));  
@@ -50,7 +51,7 @@ if ($stmt21) {
     $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
     $updateGoTo .= $_SERVER['QUERY_STRING'];
   }
-   header(sprintf("Location: editbranch.php?culture=".$_GET['culture']."&id=".$Id, $updateGoTo));
+   header(sprintf("Location: editbranch.php", $updateGoTo));
 }
 
  ?>
@@ -146,7 +147,7 @@ tr.header
 <div class="col-md-12"><br></div>
 <div class="col-md-12"><br></div>
 
-<h2 class="<?php echo $float; ?>"><?php echo $Edit." ".$Branches; ?> <a href="branches.php?culture=<?php echo $culture; ?>" class="btn btn-outline-primary" style=""><?php echo $Goback; ?></a>
+<h2 class="<?php echo $float; ?>"><?php echo $Edit." ".$Branches; ?> <a href="Branch.php?culture=<?php echo $culture; ?>" class="btn btn-outline-primary" style=""><?php echo $Goback; ?></a>
  </h2>
 
 <br>
@@ -165,7 +166,7 @@ tr.header
 <div class="row">
 <div class="col-md-2"><?php echo $Code; ?></div>
 <div class="col-md-3">
-  <input type="text" name="code" id="code" value="<?php echo $row_dataset['Code']; ?>" class="form-control" tabindex="1"  maxlength="12" autofocus />
+  <input type="text" name="code" id="code" value="<?php echo $row_dataset['Code']; ?>" class="form-control" tabindex="1"  maxlength="12" autofocus readonly />
 </div>
 </div>
 
@@ -173,10 +174,10 @@ tr.header
 
 <div class="row">
 <div class="col-md-2"><?php echo $NameA; ?></div>
-<div class="col-md-4"><input type="text" name="nameArabic" value="<?php echo $row_dataset['nameAr']; ?>" class="form-control" tabindex="2"  required /></div>
+<div class="col-md-4"><input type="text" name="nameArabic" value="<?php echo $row_dataset['AName']; ?>" class="form-control" tabindex="2"  required /></div>
 
 <div class="col-md-2"><?php echo $NameE; ?></div>
-<div class="col-md-4"><input type="text" name="nameEnglish" value="<?php echo $row_dataset['nameEn']; ?>" class="form-control" tabindex="3"  required /></div>
+<div class="col-md-4"><input type="text" name="nameEnglish" value="<?php echo $row_dataset['EName']; ?>" class="form-control" tabindex="3"  required /></div>
 
 </div>
 <div class="col-md-12"><br></div>
@@ -188,7 +189,7 @@ tr.header
 
 <div class="row">
 <div class="col-md-1"><?php echo $IsActive; ?></div>
-<div class="col-md-1"><input type="checkbox" name="isActive" value="1" <?php if($row_dataset['isActive'] == 1){echo "Checked";}else{} ?>   ></div>
+<div class="col-md-1"><input type="checkbox" name="isActive" value="1" <?php if($row_dataset['IsActive'] == 1){echo "Checked";}else{} ?>   ></div>
 
 
 

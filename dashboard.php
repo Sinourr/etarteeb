@@ -24,15 +24,16 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  $date = date("Y-m-d");
 
  $time =  date("h:i:s a");
+ $CompanyId = $_SESSION['compid'];
 
 
  
  
- $tsql= "INSERT INTO dbo.Orders (OrderNo, CustMobile, Comment, IsOpen, date, TimeofOrder) 
+ $tsql= "INSERT INTO dbo.Orders (OrderNo, CustMobile, Comment, IsOpen, date, TimeofOrder, CompanyId) 
             VALUES
-            (?, ?, ?, ?, ?, ?)";
+            (?, ?, ?, ?, ?, ?, ?)";
             
-      $var = array($OrderNo, $CustMobile, $Comment, $IsOpen, $date, $time);
+      $var = array($OrderNo, $CustMobile, $Comment, $IsOpen, $date, $time, $CompanyId);
             if (!sqlsrv_query($conn, $tsql, $var))
                  {
             print_r($var); 

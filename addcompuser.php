@@ -19,22 +19,24 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  $nameArabic = $_POST['nameArabic'];
  $branchId = $_POST['branchId'];
  if (isset($_POST['isActive']) == '1'){ $isActive = "1";}else{$isActive = "0";}
+ if (isset($_POST['isAdmin']) == '1'){ $isAdmin = "1";}else{$isAdmin = "0";}
  $EmployeeId = $_POST['EmployeeId'];
  $UserName = $_POST['UserName'];
  $Role = $_POST['Role'];
  $Password2 = md5($_POST['Password2']);
+ $CompanyId = $_SESSION['compid'];
 
  
  
  
  
  $tsql= "INSERT INTO dbo.AspNetUsers (
-             nameEnglish, nameArabic, branchId, isActive, Role, EmployeeId, UserName, Password2) 
+             CompanyId, nameEnglish, nameArabic, branchId, isActive, isAdmin, Role, EmployeeId, UserName, Password2) 
             VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?)";
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
-			$var = array($nameEnglish, $nameArabic, $branchId, $isActive, $Role, $EmployeeId, $UserName, $Password2);
-            if (!sqlsrv_query($connSelComp, $tsql, $var))
+			$var = array($CompanyId, $nameEnglish, $nameArabic, $branchId, $isActive, $isAdmin, $Role, $EmployeeId, $UserName, $Password2);
+            if (!sqlsrv_query($conn, $tsql, $var))
                  {
 					  print_r($var); 
 					  
@@ -44,12 +46,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 			
 			
   
-  $insertGoTo = "editcompusers.php";
+  $insertGoTo = "compusers.php";
   if (isset($_SERVER['QUERY_STRING'])) {
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
     $insertGoTo .= $_SERVER['QUERY_STRING'];
   }
-  header(sprintf("Location: editcompusers.php?emp_id=".$Id."&empcode=".$EmployeeId, $insertGoTo));
+  header(sprintf("Location: compusers.php", $insertGoTo));
 }
 
 

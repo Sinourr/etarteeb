@@ -38,10 +38,11 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 $sql = "
 SELECT  *
-FROM AspNetUsers 
+FROM AspNetUsers
+WHERE CompanyId = '".$_SESSION['compid']."' 
  
 ";
-$stmt = sqlsrv_query( $connSelComp, $sql);
+$stmt = sqlsrv_query( $conn, $sql);
 if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));
 }

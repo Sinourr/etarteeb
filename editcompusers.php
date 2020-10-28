@@ -53,7 +53,7 @@ $tsql = "UPDATE AspNetUsers  SET
 $params = array($nameEnglish, $nameArabic, $isActive, $EmployeeId, $UserName, $Role, $branchId, $Id);
 
 /* Prepare and execute the query. */  
-$stmt20 = sqlsrv_query($connSelComp, $tsql, $params);  
+$stmt20 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt20) {  
     echo "Row successfully updates.\n";  
 } else {  
@@ -88,7 +88,7 @@ $sql = "
 SELECT  *
 FROM AspNetUsers
 WHERE AspNetUsers.Id = '".$_GET['emp_id']."'";
-$stmt111 = sqlsrv_query( $connSelComp, $sql);
+$stmt111 = sqlsrv_query( $conn, $sql);
 if( $stmt111 === false ) {
      die(print_r(sqlsrv_errors(), true));
 }
@@ -105,7 +105,7 @@ $sql10 = "
 SELECT  Role
 FROM AspNetUsers
 WHERE AspNetUsers.Id = '".$_GET['emp_id']."'";
-$stmt12 = sqlsrv_query( $connSelComp, $sql10);
+$stmt12 = sqlsrv_query( $conn, $sql10);
 if( $stmt12 === false ) {
      die( print_r( sqlsrv_errors(), true));
 }

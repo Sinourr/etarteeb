@@ -39,7 +39,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 $params = array($issueCustName, $issueCustEmail, $issueCustDescription, $isIssueResolved, $issueTime, $Id);
 
 /* Prepare and execute the query. */  
-$stmt20 = sqlsrv_query($connSelComp, $tsql, $params);  
+$stmt20 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt20) {  
     echo "Row successfully updates.\n";  
 } else {  
@@ -62,12 +62,12 @@ if ($stmt20) {
 
 
 $sql = "SELECT max(CAST(Id AS INT))+1 as countofid  FROM Orders";
-$stmt1 = sqlsrv_query( $connSelComp, $sql);
+$stmt1 = sqlsrv_query( $conn, $sql);
 if( $stmt1 === false ) {die( print_r( sqlsrv_errors(), true));}
 
 
 $sql2 = "SELECT * FROM Orders";
-$stmt2 = sqlsrv_query( $connSelComp, $sql2) or die ( print_r(sqlsrv_errors(), true));
+$stmt2 = sqlsrv_query( $conn, $sql2) or die ( print_r(sqlsrv_errors(), true));
 $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 
@@ -88,6 +88,8 @@ $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
  	<title>
  		Tarteeb		
@@ -101,13 +103,10 @@ $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
     padding-top: 100px;
 }
 .form-arka-plan{
-    background-image: url("https://cdn.filepicker.io/api/file/1WxRtkAQG5h70aoPQdGA/convert?format=jpeg&quality=50");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
+  
 }
 .acik-renk-form{
-    background: rgba(255, 255, 255, 0.58);
+    background: rgba(255, 255, 255, 0.6);
 }
 .siyah-cerceve{
     -webkit-text-fill-color: white;
@@ -117,6 +116,11 @@ $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 
 body{
+
+     background-image: url("https://cdn.filepicker.io/api/file/1WxRtkAQG5h70aoPQdGA/convert?format=jpeg&quality=50");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 1000px;
 
 }
  	</style>

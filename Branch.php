@@ -21,7 +21,8 @@ $row_isadmin = sqlsrv_fetch_array( $resultadmin, SQLSRV_FETCH_ASSOC);
 
 $sql = "
 SELECT *
-FROM Branches";
+FROM Branches
+WHERE CompanyId = '".$_SESSION['compid']."'";
 $result1 = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $result1 === false ) {
     die( print_r( sqlsrv_errors(), true));
@@ -148,10 +149,10 @@ $row_permission = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
 <tr>
     <td><?php echo $sn; ?></td>
     <td><?php echo $row_dataset['Code']; ?></td>
-    <td><?php if($culture == 'en'){ echo $row_dataset['nameEn']; } else { echo $row_dataset['nameAr'];} ?></td>
+    <td><?php if($culture == 'en'){ echo $row_dataset['EName']; } else { echo $row_dataset['AName'];} ?></td>
     <td><?php
 
-     if($row_dataset['isActive'] == '1'){echo 'Yes';}else{echo 'No';}  
+     if($row_dataset['IsActive'] == '1'){echo 'Yes';}else{echo 'No';}  
 
 
      ?></td>
@@ -161,13 +162,13 @@ $row_permission = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC);
 
    
 
-<?php if(substr($row_permission['SupportFiles_access_level'],2,-2)  == '1' || $row_isadmin['IsAdmin'] == '1'){  ?>
-    <a href="editbranch.php?culture=<?php echo $culture; ?>&id=<?php echo $row_dataset['Id']; ?>" class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
+<?php /* if(substr($row_permission['SupportFiles_access_level'],2,-2)  == '1' || $row_isadmin['IsAdmin'] == '1'){ */ ?>
+    <a href="editbranch.php?culture=<?php echo $culture; ?>&id=<?php echo $row_dataset['ID']; ?>" class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
 
-<?php  } if(substr($row_permission['SupportFiles_access_level'],3,-1)  == '1' || $row_isadmin['IsAdmin'] == '1'){  ?>
-    <a href='#' data-id="<?php echo $row_dataset['Id']; ?>" data-placement='bottom' class='btn btn-outline-danger deleteSweetAlert' header-btn> <i class="fa fa-trash" aria-hidden="true"></i> </a>
+<?php /* } if(substr($row_permission['SupportFiles_access_level'],3,-1)  == '1' || $row_isadmin['IsAdmin'] == '1'){ */  ?>
+    <a href='#' data-id="<?php echo $row_dataset['ID']; ?>" data-placement='bottom' class='btn btn-outline-danger deleteSweetAlert' header-btn> <i class="fa fa-trash" aria-hidden="true"></i> </a>
 
-<?php } ?>
+<?php /* } */ ?>
 
     </td>  
 </tr>

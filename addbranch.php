@@ -187,7 +187,7 @@ tr.header
 <div class="col-md-12"><br></div>
 <div class="col-md-12"><br></div>
 
-<h2 class="<?php echo $float; ?>"><?php echo $Add." ".$Branches; ?> <a href="branches.php?culture=<?php echo $culture; ?>" class="btn btn-outline-primary" style=""><?php echo $Goback; ?></a>
+<h2 class="<?php echo $float; ?>"><?php echo $Add." ".$Branches; ?> <a href="Branch.php?culture=<?php echo $culture; ?>" class="btn btn-outline-primary" style=""><?php echo $Goback; ?></a>
  </h2>
 
 <br>
@@ -207,7 +207,22 @@ tr.header
 <div class="row">
 <div class="col-md-2"><?php echo $Code; ?></div>
 <div class="col-md-3">
-  <input type="text" name="code" id="code" class="form-control" tabindex="1"  maxlength="12" autofocus autocomplete="off" required value="<?php echo $_SESSION['compid']; ?>" />
+  <input type="text" name="code" id="code" class="form-control" tabindex="1"  maxlength="12" autofocus autocomplete="off" required value="<?php
+
+
+
+$sql = "
+SELECT TOP(1) Id+1 as CODE
+FROM Branches
+WHERE CompanyId = '".$_SESSION['compid']."'";
+$result1 = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+if( $result1 === false ) {
+    die( print_r( sqlsrv_errors(), true));
+}
+$row_compid = sqlsrv_fetch_array($result1, SQLSRV_FETCH_ASSOC);
+
+
+ echo $_SESSION['compid']."-".$row_compid['CODE']; ?>" readonly />
 </div>
 </div>
 
