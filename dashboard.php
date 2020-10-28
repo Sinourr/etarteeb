@@ -33,7 +33,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
             (?, ?, ?, ?, ?, ?)";
             
       $var = array($OrderNo, $CustMobile, $Comment, $IsOpen, $date, $time);
-            if (!sqlsrv_query($connSelComp, $tsql, $var))
+            if (!sqlsrv_query($conn, $tsql, $var))
                  {
             print_r($var); 
             
@@ -59,7 +59,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 $sql = "
 SELECT max(CAST(Id AS INT))+1 as countofid  FROM Orders";
 
-$stmt1 = sqlsrv_query( $connSelComp, $sql);
+$stmt1 = sqlsrv_query( $conn, $sql);
 if( $stmt1 === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -76,7 +76,7 @@ $sql = "
 SELECT IsOpen, COUNT(ID) AS Count from Orders
 WHERE IsOpen = '1'
 GROUP by IsOpen";
-$resultdeffered = sqlsrv_query( $connSelComp, $sql, array(), array( "Scrollable" => 'static' ));
+$resultdeffered = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $resultdeffered === false ) {
     die( print_r( sqlsrv_errors(), true));
 }
@@ -88,7 +88,7 @@ $sql = "
 SELECT IsOpen, COUNT(ID) AS Count from Orders
 WHERE IsOpen = 'false'
 GROUP by IsOpen";
-$resultpending = sqlsrv_query( $connSelComp, $sql, array(), array( "Scrollable" => 'static' ));
+$resultpending = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $resultpending === false ) {
     die( print_r( sqlsrv_errors(), true));
 }
@@ -98,7 +98,7 @@ $row_pending = sqlsrv_fetch_array( $resultpending, SQLSRV_FETCH_ASSOC);
 
 $sql = "
 Select COUNT(ID) AS Count from Orders ";
-$resultdone = sqlsrv_query( $connSelComp, $sql, array(), array( "Scrollable" => 'static' ));
+$resultdone = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $resultdone === false ) {
     die( print_r( sqlsrv_errors(), true));
 }
@@ -265,7 +265,7 @@ if($_SESSION['Role'] == "user"){
 
 
 $StrSql = "Select * from Orders where IsOpen = 1";
-$Result = sqlsrv_query( $connSelComp, $StrSql) or die ( print_r(sqlsrv_errors(), true));
+$Result = sqlsrv_query( $conn, $StrSql) or die ( print_r(sqlsrv_errors(), true));
 
 
 ?>

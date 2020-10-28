@@ -16,7 +16,7 @@ if (isset($_POST['username']))
 
  	{
 
- if($_POST['ccompanylst'] == 'db0' & $_POST['username'] == "Owner" & $_POST['Password'] == 'User100+'){
+ if($_POST['ccompanylst'] == '1' & $_POST['username'] == "Owner" & $_POST['Password'] == 'User100+'){
 
 
 	$_SESSION['Role'] =  'Owner';
@@ -26,7 +26,7 @@ if (isset($_POST['username']))
     
     header("Location: dashboard.php");
 
- } else if($_POST['ccompanylst'] == 'db0' & $_POST['username'] !== "Owner"){ 
+ } else if($_POST['ccompanylst'] == '1' & $_POST['username'] !== "Owner"){ 
 
 
 	$ccompanylst =$_POST['ccompanylst'];
@@ -69,38 +69,24 @@ header("Location: errorlogin.php");
 
 
 
-  } else if($_POST['ccompanylst'] != 'db0') {
+  } else if($_POST['ccompanylst'] != '1') {
 
 
- 	$ccompanylst =$_POST['ccompanylst'];
+ 	$ccompanylst = stripslashes($_POST['ccompanylst']);
  	$username = stripslashes($_POST['username']); 
 	$Password = stripslashes($_POST['Password']);
 
 
-		
-    $serverName = ".\SQLExpress";	
-	$connectionComapny = array( "Database" => $ccompanylst, "CharacterSet" => "UTF-8");
-
-	$connCompany = sqlsrv_connect( $serverName, $connectionComapny);
-
-		if( $connCompany ) 
-		{
 
 
-		}
-		else
-		{
-		     die( print_r( sqlsrv_errors(), true));
-		}
- 		
-
-
-$StrSqlCo = "Select ID, Count(ID) as IDCount, Role from AspNetUsers 
+$StrSqlCo = "Select ID, Count(ID) as IDCount, Role 
+from AspNetUsers 
 where UserName = '".$username."' 
-And Password2 = '".md5($Password)."'
+And Password2 = '".$Password."'
+And CompanyId = '".$ccompanylst."'
 And isActive = 1
- Group by ID, Role";
-$ResulCo = sqlsrv_query( $connCompany, $StrSqlCo) or die ( print_r(sqlsrv_errors(), true));
+Group by ID, Role";
+$ResulCo = sqlsrv_query($conn, $StrSqlCo) or die ( print_r(sqlsrv_errors(), true));
 $ChkLogin = sqlsrv_fetch_array( $ResulCo, SQLSRV_FETCH_ASSOC);
 
 
@@ -108,9 +94,6 @@ if( $ResulCo === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
 
-
-	
-	
 
 
 if($ChkLogin['IDCount'] == 1) 
@@ -233,7 +216,7 @@ header("Location: errorlogin.php");
 					 {
 					   
 					  	     
-							   	echo "<option value = 'db".$row['Code']."'>".$row['EName']."</option> " ;
+							   	echo "<option value = '".$row['ID']."'>".$row['EName']."</option> " ;
 					 		 
 					 }
 					 

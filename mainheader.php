@@ -257,7 +257,7 @@ if($role == "Owner"){  ?>
 $sql = "
 SELECT *
 FROM Orders WHERE isIssueResolved = 0";
-$result1 = sqlsrv_query( $connSelComp, $sql, array(), array( "Scrollable" => 'static' ));
+$result1 = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $result1 === false ) {
     die( print_r( sqlsrv_errors(), true));
 }
