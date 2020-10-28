@@ -40,11 +40,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  
  
  $tsql= "INSERT INTO dbo.AspNetUsers (
-            Id,CompanyId,companyCode,nameEnglish, nameArabic,isAdmin,isActive,AddedBy,AddedDate,EmployeeId,PasswordHash,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,Role,Password2,CreatedFrom) 
+            CompanyId,companyCode,nameEnglish, nameArabic,isAdmin,isActive,AddedBy,AddedDate,EmployeeId,PasswordHash,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,Role,Password2,CreatedFrom) 
             VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
-			$var = array($Id, $CompanyId, $companyCode, $nameEnglish, $nameArabic,  $isAdmin, $isActive, $AddedBy, $AddedDate, $EmployeeId, $PasswordHash, $PhoneNumber, $PhoneNumberConfirmed, $TwoFactorEnabled, $LockoutEndDateUtc, $LockoutEnabled, $AccessFailedCount, $UserName, $Role, $Password2, $CreatedFrom);
+			$var = array($CompanyId, $companyCode, $nameEnglish, $nameArabic,  $isAdmin, $isActive, $AddedBy, $AddedDate, $EmployeeId, $PasswordHash, $PhoneNumber, $PhoneNumberConfirmed, $TwoFactorEnabled, $LockoutEndDateUtc, $LockoutEnabled, $AccessFailedCount, $UserName, $Role, $Password2, $CreatedFrom);
             if (!sqlsrv_query($conn, $tsql, $var))
                  {
 					  print_r($var); 

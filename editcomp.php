@@ -197,7 +197,7 @@ background-repeat: no-repeat;
 </style>
 
   <title>
-   Online Accounting System   
+   Tarteeb  
   </title>
 
  </head>
@@ -454,62 +454,6 @@ background-repeat: no-repeat;
 
 
 
-
-<div class="col-md-3 float-right mr-5" >
-    <div class="col-md-12">
-
-<h6><small>Copy data from another system? <input type="checkbox" name="copydata" onchange="showprompt();"> </small></h6> 
-
-
-
-</div>
-
-<div class="card mb-2 shadow-sm copyprompt" style="display: none;">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Copy Data</h4>
-      </div>
-      <div class="card-body">
-       
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>From Company:</li> 
-
-          <select class="dropdownn">
-
-  <?php 
-
-    $Strsql = "Select * from LASCompanies WHERE IsActive = '1'";
-    $Resutl = sqlsrv_query( $conn, $Strsql);
-    if( $Resutl === false ) {
-      die( print_r( sqlsrv_errors(), true));
-}
-
- 
- while( $row = sqlsrv_fetch_array( $Resutl, SQLSRV_FETCH_ASSOC) ) 
- {
-   
-         
-        echo "<option value = 'LASComp".$row['Code']."'>".$row['EName']."</option> " ;
-     
- }
- 
-
-
-   ?>
-            
-
-          </select>
-          <li><br></li>
-          <li><input type="checkbox" name="chartsofacc" id="chartsofacc"> <label for="chartsofacc">Charts of Account</label></li>
-          <li><input type="checkbox" name="costcenter" id="costcenter"> <label for="costcenter">Cost Center</label></li>
-          <li><input type="checkbox" name="projects" id="projects"> <label for="projects">Projects</label></li>
-          <li><input type="checkbox" name="branches" id="branches"> <label for="branches">Branches</label></li>
-          <li><input type="checkbox" name="departments" id="departments"> <label for="departments">Departments</label></li>
-        </ul>
- 
-      </div>
-    </div>
-
-</div>
 
 
 

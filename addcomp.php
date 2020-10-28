@@ -32,11 +32,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  $CrNo = $_POST['CrNo'];
  if ($_POST['IsActive'] == '1'){ $IsActive = "1";}else{$IsActive = "0";};
 
- /*
- $TelNo2 = $_POST['TelNo2'];
- $FaxNo2 = $_POST['FaxNo2'];
- $OpeningADate = $_POST['OpeningADate'];
- */
+ 
 
 
 
@@ -60,166 +56,18 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     // Move to the next result and display results.
         $next_result = sqlsrv_next_result($stmt500);
         if( $next_result ) {
-            $row = sqlsrv_fetch_array( $stmt500, SQLSRV_FETCH_ASSOC);
 
-            $newcode = 'db'.$row['Code'];
-
-             $createsql= "CREATE DATABASE ".$newcode;
-             $stmtcreatedb = sqlsrv_query($conn, $createsql);
-
-              
-
-
-
-  if( $stmtcreatedb ) {
-
-
-
-
- $orderssql ="USE ".$newcode."
-  CREATE TABLE Orders (
-  ID int IDENTITY (2,1) NOT NULL,
-  OrderNo nchar(10),  
-  CustMobile nvarchar(40),
-  Comment text,
-  BranchId nvarchar(40),
-  IsOpen bit,
-  date nvarchar(40),
-  TimeofOrder nvarchar(40),
-  TimeofOrderClose nvarchar(40),
-  SmsContent  text,
-  FeedbackId  nvarchar(40),
-  issueCustName nvarchar(500),
-  issueCustEmail nvarchar(500),
-  issueCustDescription text,
-  isIssueResolved bit,
-  issueTime nvarchar(40),
-  resolvedescription nvarchar(max),
-  Feedback1 nchar(10),
-  label1 nvarchar(500),
-  Feedback2 nchar(10),
-  label2 nvarchar(500),
-  Feedback3 nchar(10),
-  label3 nvarchar(500),
-  Feedback4 nchar(10),
-  label4 nvarchar(500),
-  Feedback5 nchar(10),
-  label5 nvarchar(500),
-  Feedbackdate nvarchar(500),
-  Feedbacktime nvarchar(500)
-  CONSTRAINT [PK_orders] PRIMARY KEY CLUSTERED 
-(
-  [ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]";
-
-$stmt0 = sqlsrv_query($conn, $orderssql);
-if($stmt0 === false) {
-    die(print_r(sqlsrv_errors(), true));
-} 
-sqlsrv_free_stmt($stmt0);
-
-
-
-
- $branchessql ="USE ".$newcode."
-  CREATE TABLE Branches (
-  ID int IDENTITY (2,1) NOT NULL,
-  Code nchar(10),  
-  AName nvarchar(40),  
-  EName nvarchar(40),  
-  CompanyId nvarchar(40),
-  IsActive bit
-  CONSTRAINT [PK_Branches] PRIMARY KEY CLUSTERED 
-(
-  [ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]";
-
-$stmt1 = sqlsrv_query($conn, $branchessql);
-if($stmt1 === false) {
-    die(print_r(sqlsrv_errors(), true));
-} 
-sqlsrv_free_stmt($stmt1);
-
-
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-
-
-
-$SystemParameterssql ="
-  CREATE TABLE SystemParameters (
-  [Id] int IDENTITY (1,1) NOT NULL,
-  [CreditsEnabled] nvarchar(MAX),
-  [CreditsType] nvarchar(MAX),
-  [NumberOfCredits] nvarchar(MAX),
-  [defaultCurrency] nvarchar(MAX)
-   CONSTRAINT [PK_SystemParameters] PRIMARY KEY CLUSTERED 
-(
-  [ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]";
-$stmt6 = sqlsrv_query($conn, $SystemParameterssql);
-if($stmt6 === false) {
-    die(print_r(sqlsrv_errors(), true));
-}
-sqlsrv_free_stmt($stmt6);
-
-
-
-
-$SystemAspNetUserssql ="
-  CREATE TABLE AspNetUsers (
-  [Id] int IDENTITY (1,1) NOT NULL,
-  [CompanyId] int,  
-  [companyCode] nvarchar(MAX),  
-  [nameEnglish] nvarchar(50),  
-  [nameArabic] nvarchar(50), 
-  [branchId] nvarchar(50),  
-  [isAdmin] bit,  
-  [isActive] bit,
-  [Role] nvarchar(50),  
-  [EmployeeId] int,
-  [UserName] nvarchar(256),
-  [Password2] nvarchar(MAX)
-   CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED 
-(
-  [ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]";
-$stmt7 = sqlsrv_query($conn, $SystemAspNetUserssql);
-if($stmt7 === false) {
-    die(print_r(sqlsrv_errors(), true));
-}
-sqlsrv_free_stmt($stmt7);
-
-
-
-
-    
-    $serverName = ".\SQLExpress"; 
-    $Database = $newcode;
-        
-    $connSelectedCompany = array( "Database" => $Database, "CharacterSet" => "UTF-8");    
-    $connSelComp = sqlsrv_connect( $serverName, $connSelectedCompany);    
+          $row = sqlsrv_fetch_array( $stmt500, SQLSRV_FETCH_ASSOC);
   
-  if( !$connSelComp ) {     
-     echo "Error sub db connection";        
-     die( print_r( sqlsrv_errors(), true));     
-    }     
 
 
-
-
-
- $tsql1= "INSERT INTO ".$newcode.".dbo.AspNetUsers (nameEnglish, nameArabic, branchId, isAdmin, isActive, Role, EmployeeId, UserName, Password2) 
+ $tsql1= "INSERT INTO dbo.AspNetUsers (CompanyId, companyCode, nameEnglish, nameArabic, branchId, isAdmin, isActive, Role, EmployeeId, UserName, Password2, AddedBy, AddedDate) 
             VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
             
-            $var1 = array("admin", "admin", "1", "1", "1", "admin", "0", "admin", "4868aff1a9bbba84138137c1527b7f63");
+            $var1 = array($row['Id'], $row['Code'], "admin", "admin", "1", "1", "1", "admin", "0", "admin", "4868aff1a9bbba84138137c1527b7f63", "Owner", date('yyyy-mm-dd'));
           
-            $stmt501 = sqlsrv_query($connSelComp, $tsql1, $var1);
+            $stmt501 = sqlsrv_query($conn, $tsql1, $var1);
             if($stmt501 === false) {
                   die(print_r(sqlsrv_errors(), true));
               }
@@ -228,13 +76,13 @@ sqlsrv_free_stmt($stmt7);
 
 
 
- $tsql2= "INSERT INTO ".$newcode.".dbo.branchessql (Code, AName, EName, CompanyId, IsActive) 
+ $tsql2= "INSERT INTO Branches (Code, AName, EName, CompanyId, IsActive) 
             VALUES
             (?, ?, ?, ?, ?) ";
             
-            $var2 = array($row['Code'], "Main Branch", "Main Branch", "1", "1");
+            $var2 = array($row['Code']."-1", "Main Branch", "Main Branch", $row['Id'], "1");
           
-            $stmt502 = sqlsrv_query($connSelComp, $tsql2, $var2);
+            $stmt502 = sqlsrv_query($conn, $tsql2, $var2);
             if($stmt502 === false) {
                   die(print_r(sqlsrv_errors(), true));
               }
@@ -242,29 +90,6 @@ sqlsrv_free_stmt($stmt7);
 
 
 
-
-
-
-
-/* 
-Not yet created tables
-
-Employees
-Units
-SystemHistories
- 
- */
-
-
-
-
-
-
-} elseif( is_null($stmtcreatedb)) {
-
-die(print_r(sqlsrv_errors(), true));
-
-}
 
 
 
@@ -489,7 +314,7 @@ echo $row_code['CODE']+1;
 
             <label class="control-label col-md-2" for="TelNo1">Telephone<span style="color:red; font-size:15px;"> *</span></label>
             <div class="col-md-2">
-                <input class="form-control text-box single-line" data-val="true" id="TelNo1" name="TelNo1" type="tel">
+                <input class="form-control text-box single-line" data-val="true" id="TelNo1" name="TelNo1" type="tel" required>
             </div>
             <div class="col-md-4"></div>
         </div>

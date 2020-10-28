@@ -144,7 +144,7 @@ background-repeat: no-repeat;
 </style>
 
   <title>
-   Online Accounting System   
+   Tarteeb   
   </title>
 
  </head>
@@ -205,7 +205,14 @@ background-repeat: no-repeat;
    <td><?php echo $row_dataset['OpeningADate']; ?></td>
    <td><?php if($row_dataset['IsActive'] == '1'){echo "Yes";} else {echo "No";} ?></td>
 
-    <td><a href="editcomp.php?id=<?php echo $row_dataset['ID']; ?>" class="btn btn-outline-primary"><i class="far fa-edit"></i></a>
+    <td>
+
+<?php if($row_dataset['ID'] == 1){}else{ ?>
+      <a href="editcomp.php?id=<?php echo $row_dataset['ID']; ?>" class="btn btn-outline-primary"><i class="far fa-edit"></i>
+
+      </a>
+
+    <?php } ?>
        
 
        <!-- <a href="deletejvc.php?id=<?php echo $row_dataset['Id']; ?>" class="btn btn-outline-danger"><i class="far fa-trash-alt"></i></a> -->

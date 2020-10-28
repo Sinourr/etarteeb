@@ -31,13 +31,13 @@ if (isset($_POST['username']))
 
 	$ccompanylst =$_POST['ccompanylst'];
  	$username = stripslashes($_POST['username']); 
-	$Password = stripslashes($_POST['Password']);
+	$Password = md5($_POST['Password']);
 		
 
 
 $StrSqlCo = "Select ID, Count(ID) as IDCount from AspNetUsers 
 where UserName = '".$username."' 
-And Password2 = '".md5($Password)."'
+And Password2 = '".$Password."'
 And isActive = 1
  Group by ID";
 $ResulCo = sqlsrv_query( $conn, $StrSqlCo) or die ( print_r(sqlsrv_errors(), true));
@@ -82,7 +82,7 @@ header("Location: errorlogin.php");
 $StrSqlCo = "Select ID, Count(ID) as IDCount, Role 
 from AspNetUsers 
 where UserName = '".$username."' 
-And Password2 = '".$Password."'
+And Password2 = '".md5($Password)."'
 And CompanyId = '".$ccompanylst."'
 And isActive = 1
 Group by ID, Role";
