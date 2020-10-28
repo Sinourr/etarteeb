@@ -19,7 +19,7 @@ $sql = "
 
 SELECT * 
 FROM SystemParameters ";
-$stmt = sqlsrv_query( $connSelComp, $sql);
+$stmt = sqlsrv_query( $conn, $sql);
 if( $stmt === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -44,11 +44,12 @@ $fax = $_POST['fax'];
 $addrAr = $_POST['compAddrAr'];
 $addrEn = $_POST['compAddrEn'];
 $defaultCurrency = $_POST['dfltCurrency'];
+$CompanyId = $_SESSION['compid'];
 
 $sql30 = "
 SELECT TOP(1) Id 
 FROM SystemParameters";
-$stmt30 = sqlsrv_query( $connSelComp, $sql30);
+$stmt30 = sqlsrv_query( $conn, $sql30);
 if( $stmt30 === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -63,7 +64,7 @@ $sql1 = "
 
 SELECT COUNT(Id) as Countofsettings 
 FROM SystemParameters ";
-$stmt11 = sqlsrv_query( $connSelComp, $sql1);
+$stmt11 = sqlsrv_query( $conn, $sql1);
 if( $stmt11 === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -96,7 +97,7 @@ defaultCurrency = (?)
 $params = array($compNameAr, $compNameEn, $landline, $email,  $fax, $addrAr, $addrEn, $defaultCurrency, $Id);
 
 /* Prepare and execute the query. */  
-$stmt20 = sqlsrv_query($connSelComp, $tsql, $params);  
+$stmt20 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt20) {  
     echo "Row successfully updates.\n";  
 } else {  
@@ -105,7 +106,7 @@ if ($stmt20) {
 }  
 
 sqlsrv_free_stmt($stmt20);  
-sqlsrv_close($connSelComp);  
+sqlsrv_close($conn);  
 
 
   $updateGoTo = "sysfixedparam.php";
@@ -122,12 +123,12 @@ sqlsrv_close($connSelComp);
 
  
  $tsql= "INSERT INTO dbo.SystemParameters (
-            compNameAr,compNameEn,landline,email,fax,addrAr,addrEn,defaultCurrency) 
+            CompanyId, compNameAr,compNameEn,landline,email,fax,addrAr,addrEn,defaultCurrency) 
             VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?)";
+            (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
-      $var = array($compNameAr, $compNameEn, $landline, $email, $fax, $addrAr, $addrEn, $defaultCurrency);
-            if (!sqlsrv_query($connSelComp, $tsql, $var))
+      $var = array($CompanyId, $compNameAr, $compNameEn, $landline, $email, $fax, $addrAr, $addrEn, $defaultCurrency);
+            if (!sqlsrv_query($conn, $tsql, $var))
                  {
             print_r($var); 
             

@@ -211,7 +211,7 @@ SELECT COUNT(*) AS countorders, ID, OrderNo, CustMobile, IsOpen, issueTime, isIs
  GROUP BY ID, OrderNo, CustMobile, IsOpen, issueTime, isIssueResolved, Feedback1, date
 ";
 
-$stmtreport = sqlsrv_query( $connSelComp, $sqlreport);
+$stmtreport = sqlsrv_query( $conn, $sqlreport);
 if( $stmtreport === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -308,7 +308,7 @@ SELECT COUNT(*) AS countorders, ID, OrderNo, CustMobile, IsOpen, issueTime, isIs
  GROUP BY ID, OrderNo, CustMobile, IsOpen, issueTime, isIssueResolved, Feedback1, date
 ";
 
-$stmtreport = sqlsrv_query( $connSelComp, $sqlreport);
+$stmtreport = sqlsrv_query( $conn, $sqlreport);
 if( $stmtreport === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -407,7 +407,7 @@ SELECT COUNT(*) AS countorders, ID, OrderNo, CustMobile, IsOpen, issueTime, isIs
  GROUP BY ID, OrderNo, CustMobile, IsOpen, issueTime, isIssueResolved, Feedback1, date
 ";
 
-$stmtreport = sqlsrv_query( $connSelComp, $sqlreport);
+$stmtreport = sqlsrv_query( $conn, $sqlreport);
 if( $stmtreport === false ) {
      die( print_r( sqlsrv_errors(), true));
 }
@@ -507,7 +507,7 @@ SELECT COUNT(*) AS countorders, ID, OrderNo, CustMobile, IsOpen, issueTime, isIs
  GROUP BY ID, OrderNo, CustMobile, IsOpen, issueTime, isIssueResolved, Feedback1, date
 ";
 
-$stmtreport = sqlsrv_query( $connSelComp, $sqlreport);
+$stmtreport = sqlsrv_query( $conn, $sqlreport);
 if( $stmtreport === false ) {
      die( print_r( sqlsrv_errors(), true));
 }

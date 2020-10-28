@@ -18,7 +18,7 @@ session_start();
 $sql = "
 SELECT *
 FROM Orders";
-$result = sqlsrv_query( $connSelComp, $sql, array(), array( "Scrollable" => 'static' ));
+$result = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $result === false ) {
     die( print_r( sqlsrv_errors(), true));
 }

@@ -22,7 +22,7 @@ $row_isadmin = sqlsrv_fetch_array( $resultadmin, SQLSRV_FETCH_ASSOC);
 $sql = "
 SELECT *
 FROM Orders WHERE Feedbacktime IS NOT NULL";
-$result1 = sqlsrv_query( $connSelComp, $sql, array(), array( "Scrollable" => 'static' ));
+$result1 = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
 if( $result1 === false ) {
     die( print_r( sqlsrv_errors(), true));
 }

@@ -16,12 +16,12 @@ require("mainheader.php");
 
 
 $sql = "SELECT max(CAST(Id AS INT))+1 as countofid  FROM Orders";
-$stmt1 = sqlsrv_query( $connSelComp, $sql);
+$stmt1 = sqlsrv_query( $conn, $sql);
 if( $stmt1 === false ) {die( print_r( sqlsrv_errors(), true));}
 
 
 $sql2 = "SELECT * FROM Orders WHERE ID = '".$_GET['id']."'";
-$stmt2 = sqlsrv_query( $connSelComp, $sql2) or die ( print_r(sqlsrv_errors(), true));
+$stmt2 = sqlsrv_query( $conn, $sql2) or die ( print_r(sqlsrv_errors(), true));
 $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 

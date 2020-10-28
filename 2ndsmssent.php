@@ -59,14 +59,14 @@ require("connection.php");
 
 
 $StrSql = "Select * from Orders WHERE Id = '".$_GET['id']."'";
-$Result = sqlsrv_query( $connSelComp, $StrSql) or die ( print_r(sqlsrv_errors(), true));
+$Result = sqlsrv_query( $conn, $StrSql) or die ( print_r(sqlsrv_errors(), true));
 $row_dataset = sqlsrv_fetch_array( $Result, SQLSRV_FETCH_ASSOC);
 
 
 
 
 $StrSql1 = "Select COUNT(*) as count from Orders WHERE IsOpen=1";
-$Result1 = sqlsrv_query( $connSelComp, $StrSql1) or die ( print_r(sqlsrv_errors(), true));
+$Result1 = sqlsrv_query( $conn, $StrSql1) or die ( print_r(sqlsrv_errors(), true));
 $row_custcount = sqlsrv_fetch_array( $Result1, SQLSRV_FETCH_ASSOC);
 
 

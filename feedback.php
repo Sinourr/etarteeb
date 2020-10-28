@@ -43,7 +43,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 $params = array($Feedback1, $Feedback2, $Feedback3, $Feedback4, $Feedback5, $Feedbackdate, $Feedbacktime, $Id);
 
 /* Prepare and execute the query. */  
-$stmt20 = sqlsrv_query($connSelComp, $tsql, $params);  
+$stmt20 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt20) {  
     echo "Row successfully updates.\n";  
 } else {  
@@ -66,12 +66,12 @@ if ($stmt20) {
 
 
 $sql = "SELECT max(CAST(Id AS INT))+1 as countofid  FROM Orders";
-$stmt1 = sqlsrv_query( $connSelComp, $sql);
+$stmt1 = sqlsrv_query( $conn, $sql);
 if( $stmt1 === false ) {die( print_r( sqlsrv_errors(), true));}
 
 
 $sql2 = "SELECT * FROM Orders";
-$stmt2 = sqlsrv_query( $connSelComp, $sql2) or die ( print_r(sqlsrv_errors(), true));
+$stmt2 = sqlsrv_query( $conn, $sql2) or die ( print_r(sqlsrv_errors(), true));
 $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 

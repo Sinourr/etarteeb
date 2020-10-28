@@ -5,7 +5,7 @@ require("connection.php");
 if(!isset($_SESSION)){    
 session_start();    
 } 
-
+ob_start();
 
 ?>
 
@@ -281,9 +281,7 @@ if($totalRows_dataset>0){
         <div class="dropdown-menu" style="margin-left: -150px;" aria-labelledby="dropdown04" >
             <a class="dropdown-item highlightcolor" href="#">  Change Password </a>
           <a class="dropdown-item highlightcolor" href="logout.php">  Logout </a>
-
-
-           <a class="dropdown-item highlightcolor"> Logged In to: <?php echo $_SESSION['MM_CompName']; ?>  </a>
+  <a class="dropdown-item highlightcolor"> Logged In to: <?php echo $_SESSION['MM_CompName']; ?>  </a>
         
      
         </div>
@@ -301,5 +299,5 @@ if($totalRows_dataset>0){
 
 <?php }
 
-
+ob_end_flush();
 ?>

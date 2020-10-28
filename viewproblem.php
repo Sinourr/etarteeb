@@ -1,4 +1,8 @@
 <?php 
+
+ob_start();
+
+
 require_once('common.php');
 require("connection.php");
 require("mainheader.php");
@@ -26,7 +30,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
  $tsql= "UPDATE dbo.Orders SET 
  
  isIssueResolved = (?), 
- resolvedescription = (?),
+ resolvedescription = (?)
 
  WHERE Id = (?)";
             
@@ -36,9 +40,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 $params = array($isIssueResolved, $resolvedescription, $Id);
 
 /* Prepare and execute the query. */  
-$stmt20 = sqlsrv_query($connSelComp, $tsql, $params);  
+$stmt20 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt20) {  
-    echo "Row successfully updates.\n";  
+    echo "Row successfully updates.\n"; 
+ 
+  header("Location: problems.php?culture=en");
+
+
 } else {  
     echo "Row update failed.\n";  
     die(print_r(sqlsrv_errors(), true));  
@@ -47,24 +55,19 @@ if ($stmt20) {
 
 /* exit(); */
 
-  $updateGoTo = "problems.php?clture=en";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-    $updateGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $updateGoTo));
+ 
 }
 
 
 
 
 $sql = "SELECT max(CAST(Id AS INT))+1 as countofid  FROM Orders";
-$stmt1 = sqlsrv_query( $connSelComp, $sql);
+$stmt1 = sqlsrv_query( $conn, $sql);
 if( $stmt1 === false ) {die( print_r( sqlsrv_errors(), true));}
 
 
 $sql2 = "SELECT * FROM Orders WHERE ID = '".$_GET['id']."'";
-$stmt2 = sqlsrv_query( $connSelComp, $sql2) or die ( print_r(sqlsrv_errors(), true));
+$stmt2 = sqlsrv_query( $conn, $sql2) or die ( print_r(sqlsrv_errors(), true));
 $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 
@@ -109,7 +112,7 @@ body{
 
 <div class="container">
 
-    <form id="form1" name="form1" method="post" action="problem.php">
+    <form id="form1" name="form1" method="post" action="viewproblem.php">
  	
                                    
 
@@ -189,7 +192,7 @@ body{
  </html>
 
  	
-
+<?php ob_end_flush(); ?>
 
 
 

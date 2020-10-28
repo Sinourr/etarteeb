@@ -45,7 +45,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 $params = array($OrderNo, $CustMobile, $Comment, $IsOpen, $TimeofOrderClose, $Id);
 
 /* Prepare and execute the query. */  
-$stmt20 = sqlsrv_query($connSelComp, $tsql, $params);  
+$stmt20 = sqlsrv_query($conn, $tsql, $params);  
 if ($stmt20) {  
     echo "Row successfully updates.\n";  
 } else {  
@@ -69,7 +69,7 @@ if ($stmt20) {
 
 $sql2 = "
 SELECT * FROM Orders Where id = '".$_GET['id']."'";
-$stmt2 = sqlsrv_query( $connSelComp, $sql2) or die ( print_r(sqlsrv_errors(), true));
+$stmt2 = sqlsrv_query( $conn, $sql2) or die ( print_r(sqlsrv_errors(), true));
 $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 
@@ -122,7 +122,7 @@ $row_data = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
 
 
 $StrSql = "Select * from Orders WHERE IsOpen=1";
-$Result = sqlsrv_query( $connSelComp, $StrSql) or die ( print_r(sqlsrv_errors(), true));
+$Result = sqlsrv_query( $conn, $StrSql) or die ( print_r(sqlsrv_errors(), true));
 
 
 ?>
